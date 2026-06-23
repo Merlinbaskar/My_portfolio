@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merlin B | Software Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        'bg-dark': '#0a1428',
+                        'primary': '#8B5CF6',
+                        'secondary': '#ec4899',
+                        'accent': '#10b981',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'bounce-gentle': 'bounceGentle 2s ease-in-out infinite',
+                        'carousel': 'carousel 30s linear infinite',
+                    },
+                    keyframes: {
+                        float: { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-20px)' } },
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        bounceGentle: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-8px)' } },
+                        carousel: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-1150px)' } },
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        :root { --bg-dark: #0a1428; --primary: #8B5CF6; --secondary: #ec4899; --accent: #10b981; }
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: #0a1428; overflow-x: hidden; cursor: default; }
+        .profile-img{
+    width: 380px;
+    height: 380px;
+    object-fit: cover;
+   
+}
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a1428; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #8B5CF6, #ec4899); border-radius: 10px; }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; }
+        .glass-card { background: rgba(255,255,255,0.04); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
+        .glass-card:hover { border-color: rgba(59,130,246,0.5); box-shadow: 0 20px 60px rgba(59,130,246,0.15), 0 0 80px rgba(139,92,246,0.08); transform: translateY(-6px); }
+        .gradient-border { position: relative; border-radius: 20px; background: #0a1428; }
+        .gradient-border::before { content: ''; position: absolute; inset: -1px; border-radius: 21px; background: linear-gradient(135deg,#8B5CF6,#ec4899,#10b981,#8B5CF6); background-size: 300% 300%; animation: gradientRotate 4s ease infinite; z-index: -1; opacity: 0.7; }
+        @keyframes gradientRotate { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .glow-text { text-shadow: 0 0 30px rgba(139,92,246,0.5), 0 0 60px rgba(236,72,153,0.3); }
+        .typing-cursor::after { content: '|'; animation: blink 0.8s infinite; color: #8B5CF6; font-weight: 300; }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+        #particles-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        section, header, footer { position: relative; z-index: 1; }
+        #loading-screen { position: fixed; inset: 0; z-index: 9999; background: #0a1428; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease, visibility 0.6s ease; }
+        #loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader-ring { width: 50px; height: 50px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.1); border-top-color: #8B5CF6; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .nav-blur { background: rgba(10,20,40,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+        /* Skill tag pill */
+        .skill-tag { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); font-size: 12.5px; color: #d1d5db; transition: all 0.25s ease; }
+        .skill-tag:hover { background: rgba(139,92,246,0.12); border-color: rgba(139,92,246,0.35); color: #fff; }
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.7s cubic-bezier(0.4,0,0.2,1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .nav-link.active { color: #8B5CF6 !important; }
+        .nav-link.active::after { content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); width: 20px; height: 3px; background: #8B5CF6; border-radius: 3px; }
+        .btn-glow:hover { box-shadow: 0 0 30px rgba(139,92,246,0.5), 0 0 60px rgba(236,72,153,0.3); }
+        input:focus, textarea:focus { border-color: #8B5CF6 !important; box-shadow: 0 0 20px rgba(139,92,246,0.25) !important; }
+        .carousel-container { overflow: hidden; background: rgba(255,255,255,0.02); border-radius: 20px; padding: 20px 0; width: 100%; }
+     .carousel-track {
+    display: flex;
+    width: max-content;
+    gap: 15px;
+    animation: carousel 20s linear infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+    padding: 0 20px;
+}
+@keyframes carousel {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+        .carousel-track:hover { animation-play-state: paused; }
+        .carousel-item { display: flex; flex-direction: column; align-items: center; gap: 12px; min-width: 100px; text-align: center; padding: 12px; border-radius: 15px; background: rgba(139,92,246,0.05); border: 1px solid rgba(139,92,246,0.1); transition: all 0.3s ease; flex-shrink: 0; }
+        .carousel-item:hover { background: rgba(139,92,246,0.15); border-color: rgba(139,92,246,0.3); transform: translateY(-5px); }
+        .carousel-icon { font-size: 28px; height: 45px; display: flex; align-items: center; justify-content: center; }
+        .carousel-item.java .carousel-icon { color: #f89820; }
+        .carousel-item.spring .carousel-icon { color: #6db33f; }
+        .carousel-item.react .carousel-icon { color: #61dafb; }
+        .carousel-item.js .carousel-icon { color: #f7df1e; }
+        .carousel-item.html .carousel-icon { color: #e34c26; }
+        .carousel-item.css .carousel-icon { color: #264de4; }
+        .carousel-item.mysql .carousel-icon { color: #00758f; }
+        .carousel-item.postgres .carousel-icon { color: #336791; }
+        .carousel-item.git .carousel-icon { color: #f1502f; }
+        .carousel-item.mongodb .carousel-icon { color: #13aa52; }
+        .carousel-item p { font-size: 12px; color: #b0b9c3; margin: 0; font-weight: 500; }
+        @media (max-width: 768px) {
+            .carousel-item { min-width: 85px; padding: 8px; }
+            .carousel-icon { font-size: 20px; height: 40px; }
+            .carousel-item p { font-size: 10px; }
+        }
+    </style>
+</head>
+<body class="font-sans text-white">
+ 
+    <!-- LOADING SCREEN -->
+    <div id="loading-screen">
+        <div class="text-center">
+            <div class="loader-ring mx-auto mb-4"></div>
+            <p class="text-gray-400 text-sm tracking-wider">LOADING<span class="typing-cursor"></span></p>
+        </div>
+    </div>
+ 
+    <canvas id="particles-canvas"></canvas>
+ 
+    <!-- NAVBAR -->
+    <header class="fixed top-0 left-0 w-full z-50 nav-blur transition-all duration-300" id="navbar">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="#hero" class="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">&lt;Merlin B /&gt;</a>
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="#hero" class="nav-link relative px-3 py-2 text-sm text-gray-300 hover:text-white transition-colors duration-200">Home</a>
+                    <a href="#about" class="nav-link relative px-3 py-2 text-sm text-gray-300 hover:text-white transition-colors duration-200">About</a>
+                    <a href="#skills" class="nav-link relative px-3 py-2 text-sm text-gray-300 hover:text-white transition-colors duration-200">Skills</a>
+                    <a href="#projects" class="nav-link relative px-3 py-2 text-sm text-gray-300 hover:text-white transition-colors duration-200">Projects</a>
+                    <a href="#education" class="nav-link relative px-3 py-2 text-sm text-gray-300 hover:text-white transition-colors duration-200">Education</a>
+                    <a href="#contact" class="nav-link relative px-3 py-2 text-sm text-gray-300 hover:text-white transition-colors duration-200">Contact</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors"><i class="fas fa-bars text-xl"></i></button>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden pb-4 space-y-1">
+                <a href="#hero" class="block px-3 py-2 text-sm text-gray-300 hover:text-white rounded-lg hover:bg-white/5">Home</a>
+                <a href="#about" class="block px-3 py-2 text-sm text-gray-300 hover:text-white rounded-lg hover:bg-white/5">About</a>
+                <a href="#skills" class="block px-3 py-2 text-sm text-gray-300 hover:text-white rounded-lg hover:bg-white/5">Skills</a>
+                <a href="#projects" class="block px-3 py-2 text-sm text-gray-300 hover:text-white rounded-lg hover:bg-white/5">Projects</a>
+                <a href="#education" class="block px-3 py-2 text-sm text-gray-300 hover:text-white rounded-lg hover:bg-white/5">Education</a>
+                <a href="#contact" class="block px-3 py-2 text-sm text-gray-300 hover:text-white rounded-lg hover:bg-white/5">Contact</a>
+            </div>
+        </nav>
+    </header>
+ 
+    <!-- HERO SECTION -->
+    <section id="hero" class="min-h-screen flex items-center justify-center relative pt-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-40 -left-40 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-float-delayed"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-accent/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-left">
+                    <p class="text-accent text-sm mb-3 tracking-wider animate-fade-in">👋 Hello, I'm</p>
+                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-4 glow-text">
+                        <span class="bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">Merlin B</span>
+                    </h1>
+                    <h2 class="text-xl sm:text-2xl text-gray-400 font-medium mb-6">
+                        <span id="typing-text" class="text-primary font-semibold"></span><span class="typing-cursor"></span>
+                    </h2>
+                    <p class="text-gray-400 text-base sm:text-lg max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed">
+                        Building scalable backend systems and modern web applications using Java, Spring Boot, React, and Cloud Technologies.
+                    </p>
+                    <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                        <a href="#" onclick="alert('Resume download initiated!')" class="btn-glow inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 rounded-xl font-semibold text-white hover:from-purple-700 hover:to-pink-600 transition-all duration-300 shadow-lg">
+                            <i class="fas fa-download"></i> Download Resume
+                        </a>
+                        <a href="#contact" class="inline-flex items-center gap-2 px-6 py-3 border border-purple-500 rounded-xl font-semibold text-white hover:border-purple-400 hover:bg-purple-600/10 transition-all duration-300">
+                            <i class="fas fa-paper-plane"></i> Contact Me
+                        </a>
+                    </div>
+                    <div class="flex gap-4 mt-8 justify-center lg:justify-start">
+                        <a href="mailto:merlinbaskar45@gmail.com" class="w-11 h-11 rounded-full glass flex items-center justify-center text-gray-300 hover:text-primary transition-all duration-300 hover:scale-110" title="Email"><i class="fas fa-envelope text-lg"></i></a>
+                        <a href="https://www.linkedin.com/in/merlin-baskar-40643b281" target="_blank" rel="noopener" class="w-11 h-11 rounded-full glass flex items-center justify-center text-gray-300 hover:text-primary transition-all duration-300 hover:scale-110" title="LinkedIn"><i class="fab fa-linkedin-in text-lg"></i></a>
+                        <a href="https://github.com/Merlin-Baskar" target="_blank" rel="noopener" class="w-11 h-11 rounded-full glass flex items-center justify-center text-gray-300 hover:text-primary transition-all duration-300 hover:scale-110" title="GitHub"><i class="fab fa-github text-lg"></i></a>
+                    </div>
+                </div>
+                <div class="flex justify-center lg:justify-end">
+                  <div class="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 overflow-hidden rounded-full">
+                        <div class="absolute inset-0 rounded-full bg-gradient-to-br from-primary via-secondary to-accent animate-pulse-slow blur-md opacity-50"></div>
+                        <div class="gradient-border rounded-full w-full h-full flex items-center justify-center overflow-hidden">
+                            <div class="w-[calc(100%-8px)] h-[calc(100%-8px)] rounded-full bg-bg-dark flex items-center justify-center overflow-hidden">
+                                   <img src="image.png" alt="Merlin B"class="profile-img">
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce-gentle">
+            <a href="#about" class="text-gray-500 hover:text-primary transition-colors"><i class="fas fa-chevron-down text-2xl"></i></a>
+        </div>
+    </section>
+ 
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <p class="text-accent text-sm tracking-wider mb-2">ABOUT ME</p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Get To Know Me</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto mt-4"></div>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                        Motivated and detail-oriented <span class="text-primary font-semibold">Software Developer</span> with strong expertise in <span class="text-accent">Java, Spring Boot, JDBC, REST APIs, SQL, and Full Stack Development</span>. Passionate about building scalable applications, solving real-world problems, and continuously learning emerging technologies.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed">
+                        I thrive on turning complex problems into elegant solutions. With a foundation in both backend and frontend technologies, I bring a holistic approach to software development. When I'm not coding, I'm exploring new tech trends and contributing to open-source projects.
+                    </p>
+                </div>
+                <div class="grid grid-cols-3 gap-4 sm:gap-6 reveal">
+                    <div class="glass-card p-5 sm:p-6 text-center">
+                        <i class="fas fa-briefcase text-3xl text-primary mb-3"></i>
+                        <div class="text-3xl sm:text-4xl font-bold text-white" data-count="3">0</div>
+                        <p class="text-gray-400 text-xs sm:text-sm mt-1">Internships</p>
+                    </div>
+                    <div class="glass-card p-5 sm:p-6 text-center">
+                        <i class="fas fa-project-diagram text-3xl text-secondary mb-3"></i>
+                        <div class="text-3xl sm:text-4xl font-bold text-white" data-count="5">0</div>
+                        <p class="text-gray-400 text-xs sm:text-sm mt-1">Projects</p>
+                    </div>
+                    <div class="glass-card p-5 sm:p-6 text-center">
+                        <i class="fas fa-microchip text-3xl text-accent mb-3"></i>
+                        <div class="text-3xl sm:text-4xl font-bold text-white" data-count="15">0</div>
+                        <p class="text-gray-400 text-xs sm:text-sm mt-1">Technologies</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="py-20 lg:py-28 bg-white/[0.015]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <p class="text-accent text-sm tracking-wider mb-2">MY SKILLS</p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Technologies I Work With</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto mt-4"></div>
+            </div>
+ 
+            <!-- Technology Grid Instead of Carousel -->
+            <div class="carousel-container reveal">
+    <div class="carousel-track">
+
+        <div class="carousel-item java">
+            <i class="carousel-icon fab fa-java"></i>
+            <p>Java</p>
+        </div>
+
+        <div class="carousel-item spring">
+            <i class="carousel-icon fas fa-leaf"></i>
+            <p>Spring Boot</p>
+        </div>
+
+        <div class="carousel-item react">
+            <i class="carousel-icon fab fa-react"></i>
+            <p>ReactJS</p>
+        </div>
+
+        <div class="carousel-item js">
+            <i class="carousel-icon fab fa-js-square"></i>
+            <p>JavaScript</p>
+        </div>
+
+        <div class="carousel-item html">
+            <i class="carousel-icon fab fa-html5"></i>
+            <p>HTML5</p>
+        </div>
+
+        <div class="carousel-item css">
+            <i class="carousel-icon fab fa-css3-alt"></i>
+            <p>CSS3</p>
+        </div>
+
+        <div class="carousel-item mysql">
+            <i class="carousel-icon fas fa-database"></i>
+            <p>MySQL</p>
+        </div>
+
+        <div class="carousel-item postgres">
+            <i class="carousel-icon fas fa-database"></i>
+            <p>PostgreSQL</p>
+        </div>
+
+        <div class="carousel-item mongodb">
+            <i class="carousel-icon fas fa-leaf"></i>
+            <p>MongoDB</p>
+        </div>
+
+        <div class="carousel-item git">
+            <i class="carousel-icon fab fa-git-alt"></i>
+            <p>Git</p>
+        </div>
+
+    </div>
+</div>
+                
+            <!-- Skills Cards — tag pills, no percentages/progress bars -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+ 
+                <!-- Backend -->
+                <div class="glass-card p-6 reveal">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                            <i class="fas fa-server text-primary"></i>
+                        </div>
+                        <h3 class="font-semibold text-white">Backend</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag"><i class="fab fa-java text-orange-400"></i> Core Java</span>
+                        <span class="skill-tag"><i class="fas fa-leaf text-green-400"></i> Spring Boot</span>
+                        <span class="skill-tag"><i class="fas fa-plug text-blue-400"></i> REST APIs</span>
+                        <span class="skill-tag"><i class="fas fa-layer-group text-purple-400"></i> JPA/Hibernate</span>
+                        <span class="skill-tag"><i class="fas fa-link text-cyan-400"></i> JDBC</span>
+                        <span class="skill-tag"><i class="fas fa-cubes text-pink-400"></i> OOP &amp; Collections</span>
+                        <span class="skill-tag"><i class="fas fa-code-branch text-yellow-400"></i> Multithreading</span>
+                    </div>
+                </div>
+ 
+                <!-- Frontend -->
+                <div class="glass-card p-6 reveal">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center">
+                            <i class="fas fa-laptop-code text-secondary"></i>
+                        </div>
+                        <h3 class="font-semibold text-white">Frontend</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag"><i class="fab fa-html5 text-orange-500"></i> HTML</span>
+                        <span class="skill-tag"><i class="fab fa-css3-alt text-blue-500"></i> CSS</span>
+                        <span class="skill-tag"><i class="fab fa-js-square text-yellow-400"></i> JavaScript</span>
+                        <span class="skill-tag"><i class="fab fa-react text-cyan-400"></i> ReactJS</span>
+                        <span class="skill-tag"><i class="fas fa-file-code text-gray-400"></i> JSON</span>
+                    </div>
+                </div>
+ 
+                <!-- Databases -->
+                <div class="glass-card p-6 reveal">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
+                            <i class="fas fa-database text-accent"></i>
+                        </div>
+                        <h3 class="font-semibold text-white">Databases</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag"><i class="fas fa-database text-cyan-500"></i> MySQL</span>
+                        <span class="skill-tag"><i class="fas fa-database text-blue-400"></i> PostgreSQL</span>
+                        <span class="skill-tag"><i class="fas fa-leaf text-green-400"></i> MongoDB</span>
+                    </div>
+                </div>
+ 
+                <!-- Tools -->
+                <div class="glass-card p-6 reveal">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center">
+                            <i class="fas fa-tools text-green-400"></i>
+                        </div>
+                        <h3 class="font-semibold text-white">Tools</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag"><i class="fab fa-git-alt text-orange-500"></i> Git</span>
+                        <span class="skill-tag"><i class="fab fa-github text-white"></i> GitHub</span>
+                        <span class="skill-tag"><i class="fas fa-code text-blue-400"></i> VS Code</span>
+                        <span class="skill-tag"><i class="fas fa-circle-dot text-purple-400"></i> Eclipse</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- PROJECTS SECTION -->
+    <section id="projects" class="py-20 lg:py-28 bg-white/[0.015]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <p class="text-accent text-sm tracking-wider mb-2">MY WORK</p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Featured Projects</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto mt-4"></div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="glass-card overflow-hidden group reveal">
+                    <div class="h-48 bg-gradient-to-br from-blue-900/40 to-purple-900/40 flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-film text-6xl text-primary/50 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute inset-0 bg-gradient-to-t from-bg-dark to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3">Movie Ticket Booking System</h3>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-primary/20 text-primary border border-primary/30">Java</span>
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-secondary/20 text-secondary border border-secondary/30">Collections</span>
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-accent/20 text-accent border border-accent/30">OOP</span>
+                        </div>
+                        <ul class="text-gray-400 text-sm space-y-1.5 mb-5">
+                            <li><i class="fas fa-circle text-[4px] text-primary mr-2 align-middle"></i> Movie Listing</li>
+                            <li><i class="fas fa-circle text-[4px] text-primary mr-2 align-middle"></i> Seat Booking</li>
+                            <li><i class="fas fa-circle text-[4px] text-primary mr-2 align-middle"></i> Ticket Cancellation</li>
+                            <li><i class="fas fa-circle text-[4px] text-primary mr-2 align-middle"></i> Booking Reports</li>
+                        </ul>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 text-center py-2.5 bg-primary/20 text-primary rounded-lg text-sm font-medium hover:bg-primary/30 transition-colors">View Project</a>
+                            <a href="https://github.com/Merlin-Baskar" target="_blank" rel="noopener" class="flex-1 text-center py-2.5 bg-white/5 text-gray-300 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors"><i class="fab fa-github mr-1"></i> GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="glass-card overflow-hidden group reveal">
+                    <div class="h-48 bg-gradient-to-br from-cyan-900/40 to-blue-900/40 flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-plane-departure text-6xl text-accent/50 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute inset-0 bg-gradient-to-t from-bg-dark to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3">Flight Reservation System</h3>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-primary/20 text-primary border border-primary/30">Core Java</span>
+                        </div>
+                        <ul class="text-gray-400 text-sm space-y-1.5 mb-5">
+                            <li><i class="fas fa-circle text-[4px] text-accent mr-2 align-middle"></i> Flight Search</li>
+                            <li><i class="fas fa-circle text-[4px] text-accent mr-2 align-middle"></i> Booking</li>
+                            <li><i class="fas fa-circle text-[4px] text-accent mr-2 align-middle"></i> Cancellation</li>
+                            <li><i class="fas fa-circle text-[4px] text-accent mr-2 align-middle"></i> Passenger Management</li>
+                        </ul>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 text-center py-2.5 bg-accent/20 text-accent rounded-lg text-sm font-medium hover:bg-accent/30 transition-colors">View Project</a>
+                            <a href="https://github.com/Merlin-Baskar" target="_blank" rel="noopener" class="flex-1 text-center py-2.5 bg-white/5 text-gray-300 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors"><i class="fab fa-github mr-1"></i> GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="glass-card overflow-hidden group reveal">
+                    <div class="h-48 bg-gradient-to-br from-orange-900/40 to-red-900/40 flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-utensils text-6xl text-orange-400/50 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute inset-0 bg-gradient-to-t from-bg-dark to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3">E-Commerce Restaurant App</h3>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">HTML</span>
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">CSS</span>
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">JavaScript</span>
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">ReactJS</span>
+                        </div>
+                        <ul class="text-gray-400 text-sm space-y-1.5 mb-5">
+                            <li><i class="fas fa-circle text-[4px] text-orange-400 mr-2 align-middle"></i> Food Ordering</li>
+                            <li><i class="fas fa-circle text-[4px] text-orange-400 mr-2 align-middle"></i> Cart Management</li>
+                            <li><i class="fas fa-circle text-[4px] text-orange-400 mr-2 align-middle"></i> Order Tracking</li>
+                            <li><i class="fas fa-circle text-[4px] text-orange-400 mr-2 align-middle"></i> CRUD Operations</li>
+                        </ul>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 text-center py-2.5 bg-orange-500/20 text-orange-400 rounded-lg text-sm font-medium hover:bg-orange-500/30 transition-colors">View Project</a>
+                            <a href="https://github.com/Merlin-Baskar" target="_blank" rel="noopener" class="flex-1 text-center py-2.5 bg-white/5 text-gray-300 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors"><i class="fab fa-github mr-1"></i> GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 4 -->
+                <div class="glass-card overflow-hidden group reveal">
+                    <div class="h-48 bg-gradient-to-br from-red-900/40 to-pink-900/40 flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-hospital text-6xl text-red-400/50 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute inset-0 bg-gradient-to-t from-bg-dark to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3">Hospital Management System</h3>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-red-500/20 text-red-400 border border-red-500/30">Java</span>
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-green-500/20 text-green-400 border border-green-500/30">MySQL</span>
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">Swing</span>
+                        </div>
+                        <ul class="text-gray-400 text-sm space-y-1.5 mb-5">
+                            <li><i class="fas fa-circle text-[4px] text-red-400 mr-2 align-middle"></i> Patient Management</li>
+                            <li><i class="fas fa-circle text-[4px] text-red-400 mr-2 align-middle"></i> Appointment Scheduling</li>
+                            <li><i class="fas fa-circle text-[4px] text-red-400 mr-2 align-middle"></i> Doctor Records</li>
+                            <li><i class="fas fa-circle text-[4px] text-red-400 mr-2 align-middle"></i> Billing System</li>
+                        </ul>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 text-center py-2.5 bg-red-500/20 text-red-400 rounded-lg text-sm font-medium hover:bg-red-500/30 transition-colors">View Project</a>
+                            <a href="https://github.com/Merlin-Baskar" target="_blank" rel="noopener" class="flex-1 text-center py-2.5 bg-white/5 text-gray-300 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors"><i class="fab fa-github mr-1"></i> GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 5 -->
+                <div class="glass-card overflow-hidden group reveal">
+                    <div class="h-48 bg-gradient-to-br from-indigo-900/40 to-purple-900/40 flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-hourglass-end text-6xl text-indigo-400/50 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute inset-0 bg-gradient-to-t from-bg-dark to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3">Event Countdown Timer</h3>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">JavaScript</span>
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">HTML5</span>
+                            <span class="px-2.5 py-1 text-xs rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/30">CSS3</span>
+                        </div>
+                        <ul class="text-gray-400 text-sm space-y-1.5 mb-5">
+                            <li><i class="fas fa-circle text-[4px] text-indigo-400 mr-2 align-middle"></i> Real-time Countdown</li>
+                            <li><i class="fas fa-circle text-[4px] text-indigo-400 mr-2 align-middle"></i> Multiple Events</li>
+                            <li><i class="fas fa-circle text-[4px] text-indigo-400 mr-2 align-middle"></i> Sound Notifications</li>
+                            <li><i class="fas fa-circle text-[4px] text-indigo-400 mr-2 align-middle"></i> Responsive Design</li>
+                        </ul>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 text-center py-2.5 bg-indigo-500/20 text-indigo-400 rounded-lg text-sm font-medium hover:bg-indigo-500/30 transition-colors">View Project</a>
+                            <a href="https://github.com/Merlin-Baskar" target="_blank" rel="noopener" class="flex-1 text-center py-2.5 bg-white/5 text-gray-300 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors"><i class="fab fa-github mr-1"></i> GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- EDUCATION SECTION -->
+    <section id="education" class="py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <p class="text-accent text-sm tracking-wider mb-2">EDUCATION</p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Academic Background</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto mt-4"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="glass-card p-7 reveal text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-4 mb-4">
+                        <div class="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-graduation-cap text-2xl text-primary"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">MCA</h3>
+                            <p class="text-gray-400 text-sm">Master of Computer Applications</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 font-medium">Karpagam Academy of Higher Education</p>
+                    <p class="text-accent text-sm mt-1">2023 – 2025</p>
+                    <div class="mt-3 inline-block px-4 py-1.5 bg-primary/10 border border-primary/30 rounded-full">
+                        <span class="text-primary font-semibold">CGPA: 8.74</span>
+                    </div>
+                </div>
+                <div class="glass-card p-7 reveal text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-4 mb-4">
+                        <div class="w-14 h-14 rounded-xl bg-secondary/20 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-university text-2xl text-secondary"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">B.Sc Computer Science</h3>
+                            <p class="text-gray-400 text-sm">Bachelor of Science</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 font-medium">Holy Cross College</p>
+                    <p class="text-accent text-sm mt-1">2020 – 2023</p>
+                    <div class="mt-3 inline-block px-4 py-1.5 bg-secondary/10 border border-secondary/30 rounded-full">
+                        <span class="text-secondary font-semibold">CGPA: 7.25</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <p class="text-accent text-sm tracking-wider mb-2">CONTACT</p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Get In Touch</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto mt-4"></div>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+                <div class="reveal space-y-6">
+                    <div class="glass-card p-6 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0"><i class="fas fa-envelope text-primary text-lg"></i></div>
+                        <div><p class="text-gray-400 text-xs">Email</p><a href="mailto:merlinbaskar45@gmail.com" class="text-white font-medium hover:text-primary transition-colors">merlinbaskar45@gmail.com</a></div>
+                    </div>
+                    <div class="glass-card p-6 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center flex-shrink-0"><i class="fas fa-phone text-secondary text-lg"></i></div>
+                        <div><p class="text-gray-400 text-xs">Phone</p><a href="tel:6381657216" class="text-white font-medium hover:text-secondary transition-colors">6381657216</a></div>
+                    </div>
+                    <div class="glass-card p-6 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center flex-shrink-0"><i class="fab fa-linkedin-in text-accent text-lg"></i></div>
+                        <div><p class="text-gray-400 text-xs">LinkedIn</p><a href="https://www.linkedin.com/in/merlin-baskar-40643b281" target="_blank" rel="noopener" class="text-white font-medium hover:text-accent transition-colors">merlin-baskar-40643b281</a></div>
+                    </div>
+                    <div class="glass-card p-6 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0"><i class="fab fa-github text-white text-lg"></i></div>
+                        <div><p class="text-gray-400 text-xs">GitHub</p><a href="https://github.com/Merlin-Baskar" target="_blank" rel="noopener" class="text-white font-medium hover:text-gray-300 transition-colors">Merlin-Baskar</a></div>
+                    </div>
+                </div>
+                <div class="glass-card p-7 reveal">
+                    <h3 class="text-xl font-bold text-white mb-6">Send a Message</h3>
+                    <form id="contact-form" class="space-y-5" novalidate>
+                        <div>
+                            <label for="name" class="block text-gray-400 text-sm mb-2">Your Name</label>
+                            <input type="text" id="name" name="user_name" required class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 outline-none transition-all duration-300 focus:border-primary" placeholder="John Doe">
+                            <p class="text-red-400 text-xs mt-1 hidden" id="name-error">Please enter your name.</p>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-400 text-sm mb-2">Your Email</label>
+                            <input type="email" id="email" name="user_email" required class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 outline-none transition-all duration-300 focus:border-primary" placeholder="john@example.com">
+                            <p class="text-red-400 text-xs mt-1 hidden" id="email-error">Please enter a valid email address.</p>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-gray-400 text-sm mb-2">Your Message</label>
+                            <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 outline-none transition-all duration-300 focus:border-primary resize-none" placeholder="Tell me about your project..."></textarea>
+                            <p class="text-red-400 text-xs mt-1 hidden" id="message-error">Please enter a message.</p>
+                        </div>
+                        <button type="submit" class="btn-glow w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 rounded-xl font-semibold text-white hover:from-purple-700 hover:to-pink-600 transition-all duration-300 shadow-lg">
+                            <i class="fas fa-paper-plane mr-2"></i> Send Message
+                        </button>
+                    </form>
+                    <div id="form-error" class="hidden mt-4 p-4 bg-red-500/20 border border-red-500/30 rounded-xl text-red-400 text-center text-sm"><i class="fas fa-circle-exclamation mr-2"></i> Something went wrong. Please email me directly instead.</div>
+                    <div id="form-success" class="hidden mt-4 p-4 bg-green-500/20 border border-green-500/30 rounded-xl text-green-400 text-center"><i class="fas fa-check-circle mr-2"></i> Message sent successfully! I'll get back to you soon.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- FOOTER -->
+    <footer class="py-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <p class="text-gray-500 text-sm">© 2026 Merlin B. All Rights Reserved.</p>
+                <div class="flex gap-4">
+                    <a href="https://www.linkedin.com/in/merlin-baskar-40643b281" target="_blank" rel="noopener" class="w-9 h-9 rounded-full glass flex items-center justify-center text-gray-400 hover:text-primary transition-all duration-300"><i class="fab fa-linkedin-in text-sm"></i></a>
+                    <a href="https://github.com/Merlin-Baskar" target="_blank" rel="noopener" class="w-9 h-9 rounded-full glass flex items-center justify-center text-gray-400 hover:text-primary transition-all duration-300"><i class="fab fa-github text-sm"></i></a>
+                    <a href="mailto:merlinbaskar45@gmail.com" class="w-9 h-9 rounded-full glass flex items-center justify-center text-gray-400 hover:text-primary transition-all duration-300"><i class="fas fa-envelope text-sm"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+ 
+    <button id="back-to-top" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:scale-110 btn-glow" title="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+ 
+    <script>
+        (function() {
+            // Enhanced carousel loop fix
+            const carouselTrack = document.querySelector('.carousel-track');
+            if (carouselTrack) {
+                const allItems = Array.from(carouselTrack.children);
+                const halfLength = Math.ceil(allItems.length / 2);
+                
+                // Clone items to create seamless loop
+                for (let i = 0; i < halfLength; i++) {
+                    if (allItems[i]) {
+                        carouselTrack.appendChild(allItems[i].cloneNode(true));
+                    }
+                }
+            }
+ 
+            window.addEventListener('load', () => { const l = document.getElementById('loading-screen'); if(l) l.style.display='none'; });
+ 
+ 
+            // Particles
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            class Particle {
+                constructor() { this.reset(); }
+                reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*2+0.5; this.speedX = (Math.random()-0.5)*0.5; this.speedY = (Math.random()-0.5)*0.5; this.opacity = Math.random()*0.5+0.1; }
+                update() { this.x+=this.speedX; this.y+=this.speedY; if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset(); }
+                draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fillStyle=`rgba(139,92,246,${this.opacity})`; ctx.fill(); }
+            }
+            for(let i=0;i<80;i++) particles.push(new Particle());
+            (function animate() {
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
+                    const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, d=Math.sqrt(dx*dx+dy*dy);
+                    if(d<120) { ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=`rgba(139,92,246,${0.06*(1-d/120)})`; ctx.lineWidth=0.5; ctx.stroke(); }
+                }
+                particles.forEach(p=>{p.update();p.draw();});
+                requestAnimationFrame(animate);
+            })();
+ 
+            // Typing
+            const typingEl = document.getElementById('typing-text');
+            const phrases = ['Software Developer','Backend Engineer','Full Stack Developer','Java Enthusiast'];
+            let pi=0,ci=0,del=false,spd=100;
+            function typeEffect() {
+                const p=phrases[pi];
+                if(del){typingEl.textContent=p.substring(0,ci-1);ci--;spd=40;}
+                else{typingEl.textContent=p.substring(0,ci+1);ci++;spd=100;}
+                if(!del&&ci===p.length){spd=2000;del=true;}
+                else if(del&&ci===0){del=false;pi=(pi+1)%phrases.length;spd=400;}
+                setTimeout(typeEffect,spd);
+            }
+            typeEffect();
+ 
+            // Mobile menu
+            const btn=document.getElementById('mobile-menu-btn'), menu=document.getElementById('mobile-menu');
+            btn.addEventListener('click',()=>menu.classList.toggle('hidden'));
+            menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.add('hidden')));
+ 
+            // Active nav
+            const secs=document.querySelectorAll('section[id]'), links=document.querySelectorAll('.nav-link');
+            window.addEventListener('scroll',()=>{ let c=''; secs.forEach(s=>{if(window.scrollY>=s.offsetTop-100)c=s.id;}); links.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+c)l.classList.add('active');}); });
+ 
+            // Reveal
+            const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}}),{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+            document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+ 
+            // Counter
+            const co=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target,t=parseInt(el.dataset.count);let c=0;const st=Math.ceil(t/(1500/30)),iv=setInterval(()=>{c+=st;if(c>=t){el.textContent=t+'+';clearInterval(iv);}else el.textContent=c;},30);co.unobserve(el);}}),{threshold:0.5});
+            document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
+ 
+            // Back to top
+            const top=document.getElementById('back-to-top');
+            window.addEventListener('scroll',()=>{ if(window.scrollY>500){top.classList.remove('opacity-0','invisible');top.classList.add('opacity-100','visible');}else{top.classList.add('opacity-0','invisible');top.classList.remove('opacity-100','visible');} });
+            top.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+ 
+            // Contact form
+          // Contact form
+const form = document.getElementById('contact-form');
+
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const ni = document.getElementById('name'),
+          ei = document.getElementById('email'),
+          mi = document.getElementById('message');
+
+    const ne = document.getElementById('name-error'),
+          ee = document.getElementById('email-error'),
+          me = document.getElementById('message-error'),
+          fs = document.getElementById('form-success');
+
+    [ne, ee, me, fs].forEach(el => el.classList.add('hidden'));
+    [ni, ei, mi].forEach(el => el.style.borderColor = '');
+
+    let ok = true;
+
+    if (!ni.value.trim()) {
+        ne.classList.remove('hidden');
+        ni.style.borderColor = '#f87171';
+        ok = false;
+    }
+
+    if (!ei.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ei.value.trim())) {
+        ee.classList.remove('hidden');
+        ei.style.borderColor = '#f87171';
+        ok = false;
+    }
+
+    if (!mi.value.trim()) {
+        me.classList.remove('hidden');
+        mi.style.borderColor = '#f87171';
+        ok = false;
+    }
+
+    if (ok) {
+        form.reset();
+
+        fs.classList.remove('hidden');
+
+        setTimeout(() => {
+            fs.classList.add('hidden');
+        }, 5000);
+    }
+});
+ 
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click',function(e){ const h=this.getAttribute('href'); if(h==='#')return; e.preventDefault(); const t=document.querySelector(h); if(t)t.scrollIntoView({behavior:'smooth',block:'start'}); }); });
+        })();
+    </script>
+</body>
+</html>
